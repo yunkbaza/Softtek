@@ -11,6 +11,7 @@ import Foundation
 enum NetworkError: Error {
     case invalidURL
     case requestFailed(Error)
+    case unauthorized // Erro específico para falha de autenticação
     case invalidResponse
     case decodingError(Error)
     case encodingError(Error)
@@ -23,24 +24,40 @@ final class APIManager {
     static let shared = APIManager()
     
     // URL base da sua API no Firebase Functions.
-    // Lembre-se de colocar a URL do seu deploy aqui quando publicar.
     private let baseURL = "http://127.0.0.1:5001/softtek-challenge/us-central1/api"
+    
+    // --- [REQUISITO OBRIGATÓRIO: SEGURANÇA] ---
+    // A Chave de API que o app usará para se autenticar no back-end.
+    // DEVE ser a mesma chave definida no seu arquivo index.ts!
+    private let apiKey = "sua-chave-secreta-aqui-12345"
     
     // Construtor privado.
     private init() {}
     
     // MARK: - Funções Genéricas de Requisição
     
+    /// Função genérica para realizar requisições, agora com o cabeçalho de autenticação.
+    private func createRequest(path: String, method: String) -> URLRequest? {
+        guard let url = URL(string: "\(baseURL)\(path)") else {
+            return nil
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = method
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        // --- [REQUISITO OBRIGATÓRIO: SEGURANÇA] ---
+        // Adiciona a chave de API ao cabeçalho de todas as requisições.
+        request.setValue(apiKey, forHTTPHeaderField: "X-API-Key")
+        
+        return request
+    }
+    
     /// Função genérica para realizar requisições POST
     private func postRequest<T: Encodable>(path: String, body: T, completion: @escaping (Result<Void, NetworkError>) -> Void) {
-        guard let url = URL(string: "\(baseURL)\(path)") else {
+        guard var request = createRequest(path: path, method: "POST") else {
             completion(.failure(.invalidURL))
             return
         }
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         do {
             request.httpBody = try JSONEncoder().encode(body)
@@ -49,47 +66,61 @@ final class APIManager {
             return
         }
         
-        let task = URLSession.shared.dataTask(with: request) { _, response, error in
-            DispatchQueue.main.async {
-                if let error = error {
-                    completion(.failure(.requestFailed(error)))
-                    return
-                }
-                
-                guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
-                    completion(.failure(.invalidResponse))
-                    return
-                }
-                
-                completion(.success(()))
-            }
-        }
-        task.resume()
+        executeTask(with: request, completion: completion)
     }
     
     /// Função genérica para realizar requisições GET
     private func getRequest<T: Decodable>(path: String, completion: @escaping (Result<[T], NetworkError>) -> Void) {
-        guard let url = URL(string: "\(baseURL)\(path)") else {
+        guard let request = createRequest(path: path, method: "GET") else {
             completion(.failure(.invalidURL))
             return
         }
         
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+        executeTask(with: request, completion: completion)
+    }
+    
+    /// Função genérica para executar a tarefa de rede e tratar as respostas.
+    private func executeTask<T: Decodable>(with request: URLRequest, completion: @escaping (Result<T, NetworkError>) -> Void) {
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {
                 if let error = error {
                     completion(.failure(.requestFailed(error)))
                     return
                 }
                 
-                guard let data = data, let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                guard let httpResponse = response as? HTTPURLResponse else {
+                    completion(.failure(.invalidResponse))
+                    return
+                }
+                
+                // Trata o erro de chave de API inválida
+                if httpResponse.statusCode == 401 {
+                    completion(.failure(.unauthorized))
+                    return
+                }
+
+                guard (200...299).contains(httpResponse.statusCode) else {
+                    completion(.failure(.invalidResponse))
+                    return
+                }
+
+                // Se a resposta for apenas de sucesso (sem corpo), como em um POST
+                if T.self == Void.self {
+                    if let success = () as? T {
+                         completion(.success(success))
+                    }
+                    return
+                }
+                
+                guard let data = data else {
                     completion(.failure(.invalidResponse))
                     return
                 }
                 
                 do {
                     let decoder = JSONDecoder()
-                    decoder.dateDecodingStrategy = .iso8601 // Para converter datas automaticamente
-                    let decodedData = try decoder.decode([T].self, from: data)
+                    decoder.dateDecodingStrategy = .iso8601
+                    let decodedData = try decoder.decode(T.self, from: data)
                     completion(.success(decodedData))
                 } catch {
                     completion(.failure(.decodingError(error)))
@@ -101,23 +132,15 @@ final class APIManager {
 
     // MARK: - Endpoints Específicos
     
-    /// Envia um novo registro de check-in (sentimento) para o servidor.
-    func addCheckIn(checkIn: CheckInModel, completion: @escaping (Result<Void, NetworkError>) -> Void) {
-        postRequest(path: "/check-in", body: checkIn, completion: completion)
-    }
-    
-    /// Envia uma nova avaliação de risco para o servidor.
-    func addRiskAssessment(risk: RiskAssessmentModel, completion: @escaping (Result<Void, NetworkError>) -> Void) {
-        postRequest(path: "/risks", body: risk, completion: completion)
-    }
-
-    /// Envia o registro de uma emoção (check-in de humor) para o servidor.
     func addEmotion(emotion: EmotionModel, completion: @escaping (Result<Void, NetworkError>) -> Void) {
         postRequest(path: "/emotions", body: emotion, completion: completion)
     }
     
-    /// Busca o histórico de emoções do servidor.
     func getAllEmotions(completion: @escaping (Result<[EmotionModel], NetworkError>) -> Void) {
         getRequest(path: "/emotions", completion: completion)
+    }
+
+    func addRiskAssessment(risk: RiskAssessmentModel, completion: @escaping (Result<Void, NetworkError>) -> Void) {
+        postRequest(path: "/risks", body: risk, completion: completion)
     }
 }
