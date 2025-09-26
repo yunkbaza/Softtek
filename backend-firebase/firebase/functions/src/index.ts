@@ -1,201 +1,107 @@
-// functions/src/index.ts
-import * as functions from 'firebase-functions';
-import express from 'express';
-import helmet from 'helmet';
-import cors from 'cors';
-import rateLimit from 'express-rate-limit';
-import { z } from 'zod';
-import { initializeApp } from 'firebase-admin/app';
-import { getFirestore, FieldValue } from 'firebase-admin/firestore';
+import * as functions from "firebase-functions";
+import * as admin from "firebase-admin";
+import * as express from "express";
+import * as cors from "cors";
 
-initializeApp();
-const db = getFirestore();
+// Inicializa o Firebase Admin SDK
+admin.initializeApp();
+const db = admin.firestore();
 
-const APP_ORIGINS = [
-  /^https:\/\/(.*\.)?seu-dominio\.com$/,
-  'http://localhost:5173',
-  'http://localhost:3000',
-];
-
-const API_KEY = process.env.API_KEY;
-
-// ---------- App ----------
 const app = express();
-app.disable('x-powered-by');
-app.use(helmet());
-app.use(cors({ origin: APP_ORIGINS, credentials: false }));
-app.use(express.json({ limit: '100kb' }));
+app.use(cors({origin: true}));
+app.use(express.json());
 
-// API Key simples
-app.use((req, res, next) => {
-  const key = req.header('x-api-key');
-  if (!API_KEY || key !== API_KEY) return res.status(401).json({ error: 'unauthorized' });
-  next();
-});
+// --- [REQUISITO OBRIGATÓRIO: SEGURANÇA] ---
+// Middleware de autenticação por API Key
+const apiKeyMiddleware = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+  const apiKey = req.get("X-API-Key"); // O app deve enviar a chave neste cabeçalho
+  
+  // Defina sua chave de API secreta aqui. Pode ser qualquer string complexa.
+  // O ideal é guardar isso nas configurações de ambiente do Firebase.
+  const SECRET_API_KEY = "sua-chave-secreta-aqui-12345";
 
-// Rate limit básico
-app.use(
-  rateLimit({
-    windowMs: 60_000,
-    max: 60,
-    standardHeaders: true,
-  }),
-);
-
-// ---------- Utils ----------
-const logEvent = async (sessionId: string, action: string, meta: Record<string, any> = {}) => {
-  await db.collection('events').add({
-    sessionId,
-    action,
-    meta,
-    createdAt: FieldValue.serverTimestamp(),
-  });
+  if (apiKey && apiKey === SECRET_API_KEY) {
+    // Chave válida, a requisição pode continuar
+    next();
+  } else {
+    // Chave inválida ou ausente
+    functions.logger.warn("Tentativa de acesso não autorizado", {ip: req.ip});
+    res.status(401).send("Acesso não autorizado: Chave de API inválida ou ausente.");
+  }
 };
 
-const severityFromScore = (score: number) => {
-  if (score <= 24) return 'neutral';
-  if (score <= 49) return 'mild';
-  if (score <= 74) return 'moderate';
-  return 'severe';
-};
+// Aplica o middleware de segurança em todas as rotas da API
+app.use(apiKeyMiddleware);
 
-// ---------- Schemas ----------
-const SessionId = z.string().min(8).max(128);
+// --- Endpoints da API ---
 
-const AssessmentSchema = z.object({
-  sessionId: SessionId,
-  type: z.enum(['anxiety', 'depression', 'burnout']),
-  score: z.number().int().min(0).max(100),
-  answers: z.record(z.unknown()).optional(),
-});
-
-const MoodCheckinSchema = z.object({
-  sessionId: SessionId,
-  mood: z.enum(['very_bad', 'bad', 'neutral', 'good', 'very_good']),
-  notes: z.string().max(500).optional(),
-});
-
-const SupportResourceSchema = z.object({
-  category: z.enum(['therapy', 'group', 'wellbeing', 'education']),
-  title: z.string().min(2).max(100),
-  url: z.string().url(),
-});
-
-// ---------- Health ----------
-app.get('/health', (_req, res) => res.json({ ok: true }));
-
-// ---------- Assessments ----------
-app.post('/assessments', async (req, res) => {
+// Endpoint para registrar emoções (check-in de humor)
+app.post("/emotions", async (req, res) => {
   try {
-    const parsed = AssessmentSchema.safeParse(req.body);
-    if (!parsed.success) {
-      return res.status(400).json({ error: 'invalid_payload', details: parsed.error.flatten() });
-    }
-    const { sessionId, type, score, answers } = parsed.data;
-
-    const doc = await db.collection('assessments').add({
-      sessionId,
-      type,
-      score,
-      severity: severityFromScore(score),
-      answers: answers ?? {},
-      createdAt: FieldValue.serverTimestamp(),
-    });
-
-    await logEvent(sessionId, 'assessment_submitted', { id: doc.id, type, score });
-    return res.status(201).json({ id: doc.id });
-  } catch (err) {
-    console.error('[assessments] error', err);
-    return res.status(500).json({ error: 'internal_error' });
-  }
-});
-
-// ---------- Mood Check-ins ----------
-app.post('/mood-checkins', async (req, res) => {
-  try {
-    const parsed = MoodCheckinSchema.safeParse(req.body);
-    if (!parsed.success) {
-      return res.status(400).json({ error: 'invalid_payload', details: parsed.error.flatten() });
-    }
-    const { sessionId, mood, notes } = parsed.data;
-
-    const doc = await db.collection('mood_checkins').add({
-      sessionId,
-      mood,
-      notes: notes ?? '',
-      createdAt: FieldValue.serverTimestamp(),
-    });
-
-    await logEvent(sessionId, 'mood_checkin_submitted', { id: doc.id, mood });
-    return res.status(201).json({ id: doc.id });
-  } catch (err) {
-    console.error('[mood-checkins] error', err);
-    return res.status(500).json({ error: 'internal_error' });
-  }
-});
-
-// ---------- Histórico ----------
-app.get('/history/:sessionId', async (req, res) => {
-  try {
-    const sessionId = req.params.sessionId;
-    if (!SessionId.safeParse(sessionId).success) {
-      return res.status(400).json({ error: 'invalid_session' });
+    const { emotion, userId, timestamp } = req.body;
+    
+    if (!emotion || !userId || !timestamp) {
+      return res.status(400).send("Dados incompletos.");
     }
 
-    const [assessSnap, moodSnap] = await Promise.all([
-      db
-        .collection('assessments')
-        .where('sessionId', '==', sessionId)
-        .orderBy('createdAt', 'desc')
-        .limit(200)
-        .get(),
-      db
-        .collection('mood_checkins')
-        .where('sessionId', '==', sessionId)
-        .orderBy('createdAt', 'desc')
-        .limit(200)
-        .get(),
-    ]);
+    const emotionData = { emotion, userId, timestamp: new Date(timestamp) };
+    const docRef = await db.collection("emotions").add(emotionData);
 
-    const assessments = assessSnap.docs.map((d) => ({ id: d.id, ...d.data() }));
-    const mood = moodSnap.docs.map((d) => ({ id: d.id, ...d.data() }));
-
-    await logEvent(sessionId, 'history_fetched', { assessments: assessments.length, mood: mood.length });
-    return res.json({ assessments, mood });
-  } catch (err) {
-    console.error('[history] error', err);
-    return res.status(500).json({ error: 'internal_error' });
+    // --- [REQUISITO OBRIGATÓRIO: LOGS] ---
+    functions.logger.info(`Nova emoção registrada com sucesso (ID: ${docRef.id})`, { data: emotionData });
+    
+    res.status(201).send({ id: docRef.id });
+  } catch (error) {
+    // --- [REQUISITO OBRIGATÓRIO: LOGS] ---
+    functions.logger.error("Erro ao registrar emoção:", error);
+    res.status(500).send("Erro interno ao registrar emoção.");
   }
 });
 
-// ---------- Recursos de Apoio ----------
-app.get('/support/resources', async (_req, res) => {
-  try {
-    const snap = await db.collection('support_resources').orderBy('title').limit(200).get();
-    const items = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
-    return res.json({ items });
-  } catch (err) {
-    console.error('[resources:list] error', err);
-    return res.status(500).json({ error: 'internal_error' });
-  }
-});
+// Endpoint para buscar todas as emoções
+app.get("/emotions", async (req, res) => {
+    try {
+        const snapshot = await db.collection("emotions").orderBy("timestamp", "desc").get();
+        const emotions: any[] = [];
+        snapshot.forEach((doc) => {
+            emotions.push({id: doc.id, ...doc.data()});
+        });
 
-app.post('/support/resources', async (req, res) => {
-  try {
-    const parsed = SupportResourceSchema.safeParse(req.body);
-    if (!parsed.success) {
-      return res.status(400).json({ error: 'invalid_payload', details: parsed.error.flatten() });
+        // --- [REQUISITO OBRIGATÓRIO: LOGS] ---
+        functions.logger.info("Busca de histórico de emoções realizada.");
+
+        res.status(200).json(emotions);
+    } catch (error) {
+        // --- [REQUISITO OBRIGATÓRIO: LOGS] ---
+        functions.logger.error("Erro ao buscar emoções:", error);
+        res.status(500).send("Erro interno ao buscar emoções.");
     }
-    const doc = await db.collection('support_resources').add({
-      ...parsed.data,
-      createdAt: FieldValue.serverTimestamp(),
-    });
-    return res.status(201).json({ id: doc.id });
-  } catch (err) {
-    console.error('[resources:create] error', err);
-    return res.status(500).json({ error: 'internal_error' });
-  }
 });
 
-// ---------- Export ----------
+// Endpoint para registrar avaliações de risco
+app.post("/risks", async (req, res) => {
+    try {
+        const { question, answer, userId, timestamp } = req.body;
+
+        if (!question || answer === undefined || !userId || !timestamp) {
+            return res.status(400).send("Dados incompletos.");
+        }
+
+        const riskData = { question, answer, userId, timestamp: new Date(timestamp) };
+        const docRef = await db.collection("riskAssessments").add(riskData);
+
+        // --- [REQUISITO OBRIGATÓRIO: LOGS] ---
+        functions.logger.info(`Nova avaliação de risco registrada (ID: ${docRef.id})`, { data: riskData });
+
+        res.status(201).send({ id: docRef.id });
+    } catch (error) {
+        // --- [REQUISITO OBRIGATÓRIO: LOGS] ---
+        functions.logger.error("Erro ao registrar avaliação de risco:", error);
+        res.status(500).send("Erro interno ao registrar avaliação de risco.");
+    }
+});
+
+// Adicione aqui outros endpoints (ex: /check-in) seguindo o mesmo padrão...
+
+// Exporta a API como uma Cloud Function
 export const api = functions.https.onRequest(app);
