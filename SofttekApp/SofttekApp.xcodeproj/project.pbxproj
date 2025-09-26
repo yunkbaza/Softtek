@@ -1,0 +1,599 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		FD47F06B2DBF300B00E583CA /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = FD47F06A2DBF300B00E583CA /* SQLite */; };
+		FD59E7882DC2F922004EBC4A /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD59E7872DC2F921004EBC4A /* Secrets.swift */; };
+		FD59E78A2DC2FA8A004EBC4A /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = FD59E7892DC2FA7F004EBC4A /* .gitignore */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		FD47F0332DBEEBCB00E583CA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FD47F01A2DBEEBC500E583CA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FD47F0212DBEEBC500E583CA;
+			remoteInfo = SofttekApp;
+		};
+		FD47F03D2DBEEBCB00E583CA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FD47F01A2DBEEBC500E583CA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FD47F0212DBEEBC500E583CA;
+			remoteInfo = SofttekApp;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		FD47F0222DBEEBC500E583CA /* SofttekApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SofttekApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FD47F0322DBEEBCB00E583CA /* SofttekAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SofttekAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FD47F03C2DBEEBCB00E583CA /* SofttekAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SofttekAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FD59E7872DC2F921004EBC4A /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
+		FD59E7892DC2FA7F004EBC4A /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		FD47F0242DBEEBC500E583CA /* SofttekApp */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = SofttekApp;
+			sourceTree = "<group>";
+		};
+		FD47F0352DBEEBCB00E583CA /* SofttekAppTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = SofttekAppTests;
+			sourceTree = "<group>";
+		};
+		FD47F03F2DBEEBCB00E583CA /* SofttekAppUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = SofttekAppUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FD47F01F2DBEEBC500E583CA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FD47F06B2DBF300B00E583CA /* SQLite in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FD47F02F2DBEEBCB00E583CA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FD47F0392DBEEBCB00E583CA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		FD47F0192DBEEBC500E583CA = {
+			isa = PBXGroup;
+			children = (
+				FD59E7892DC2FA7F004EBC4A /* .gitignore */,
+				FD59E7872DC2F921004EBC4A /* Secrets.swift */,
+				FD47F0242DBEEBC500E583CA /* SofttekApp */,
+				FD47F0352DBEEBCB00E583CA /* SofttekAppTests */,
+				FD47F03F2DBEEBCB00E583CA /* SofttekAppUITests */,
+				FD47F0232DBEEBC500E583CA /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FD47F0232DBEEBC500E583CA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FD47F0222DBEEBC500E583CA /* SofttekApp.app */,
+				FD47F0322DBEEBCB00E583CA /* SofttekAppTests.xctest */,
+				FD47F03C2DBEEBCB00E583CA /* SofttekAppUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		FD47F0212DBEEBC500E583CA /* SofttekApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FD47F0462DBEEBCB00E583CA /* Build configuration list for PBXNativeTarget "SofttekApp" */;
+			buildPhases = (
+				FD47F01E2DBEEBC500E583CA /* Sources */,
+				FD47F01F2DBEEBC500E583CA /* Frameworks */,
+				FD47F0202DBEEBC500E583CA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				FD47F0242DBEEBC500E583CA /* SofttekApp */,
+			);
+			name = SofttekApp;
+			packageProductDependencies = (
+				FD47F06A2DBF300B00E583CA /* SQLite */,
+			);
+			productName = SofttekApp;
+			productReference = FD47F0222DBEEBC500E583CA /* SofttekApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+		FD47F0312DBEEBCB00E583CA /* SofttekAppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FD47F0492DBEEBCB00E583CA /* Build configuration list for PBXNativeTarget "SofttekAppTests" */;
+			buildPhases = (
+				FD47F02E2DBEEBCB00E583CA /* Sources */,
+				FD47F02F2DBEEBCB00E583CA /* Frameworks */,
+				FD47F0302DBEEBCB00E583CA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FD47F0342DBEEBCB00E583CA /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				FD47F0352DBEEBCB00E583CA /* SofttekAppTests */,
+			);
+			name = SofttekAppTests;
+			packageProductDependencies = (
+			);
+			productName = SofttekAppTests;
+			productReference = FD47F0322DBEEBCB00E583CA /* SofttekAppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		FD47F03B2DBEEBCB00E583CA /* SofttekAppUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FD47F04C2DBEEBCB00E583CA /* Build configuration list for PBXNativeTarget "SofttekAppUITests" */;
+			buildPhases = (
+				FD47F0382DBEEBCB00E583CA /* Sources */,
+				FD47F0392DBEEBCB00E583CA /* Frameworks */,
+				FD47F03A2DBEEBCB00E583CA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FD47F03E2DBEEBCB00E583CA /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				FD47F03F2DBEEBCB00E583CA /* SofttekAppUITests */,
+			);
+			name = SofttekAppUITests;
+			packageProductDependencies = (
+			);
+			productName = SofttekAppUITests;
+			productReference = FD47F03C2DBEEBCB00E583CA /* SofttekAppUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FD47F01A2DBEEBC500E583CA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1610;
+				LastUpgradeCheck = 1610;
+				TargetAttributes = {
+					FD47F0212DBEEBC500E583CA = {
+						CreatedOnToolsVersion = 16.1;
+					};
+					FD47F0312DBEEBCB00E583CA = {
+						CreatedOnToolsVersion = 16.1;
+						TestTargetID = FD47F0212DBEEBC500E583CA;
+					};
+					FD47F03B2DBEEBCB00E583CA = {
+						CreatedOnToolsVersion = 16.1;
+						TestTargetID = FD47F0212DBEEBC500E583CA;
+					};
+				};
+			};
+			buildConfigurationList = FD47F01D2DBEEBC500E583CA /* Build configuration list for PBXProject "SofttekApp" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = FD47F0192DBEEBC500E583CA;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				FD47F0692DBF300B00E583CA /* XCRemoteSwiftPackageReference "SQLite" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = FD47F0232DBEEBC500E583CA /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FD47F0212DBEEBC500E583CA /* SofttekApp */,
+				FD47F0312DBEEBCB00E583CA /* SofttekAppTests */,
+				FD47F03B2DBEEBCB00E583CA /* SofttekAppUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		FD47F0202DBEEBC500E583CA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FD59E78A2DC2FA8A004EBC4A /* .gitignore in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FD47F0302DBEEBCB00E583CA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FD47F03A2DBEEBCB00E583CA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FD47F01E2DBEEBC500E583CA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FD59E7882DC2F922004EBC4A /* Secrets.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FD47F02E2DBEEBCB00E583CA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FD47F0382DBEEBCB00E583CA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		FD47F0342DBEEBCB00E583CA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FD47F0212DBEEBC500E583CA /* SofttekApp */;
+			targetProxy = FD47F0332DBEEBCB00E583CA /* PBXContainerItemProxy */;
+		};
+		FD47F03E2DBEEBCB00E583CA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FD47F0212DBEEBC500E583CA /* SofttekApp */;
+			targetProxy = FD47F03D2DBEEBCB00E583CA /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		FD47F0442DBEEBCB00E583CA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		FD47F0452DBEEBCB00E583CA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		FD47F0472DBEEBCB00E583CA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"SofttekApp/Preview Content\"";
+				DEVELOPMENT_TEAM = YWSDVTZXYK;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = br.com.fiap.SofttekApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		FD47F0482DBEEBCB00E583CA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"SofttekApp/Preview Content\"";
+				DEVELOPMENT_TEAM = YWSDVTZXYK;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = br.com.fiap.SofttekApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		FD47F04A2DBEEBCB00E583CA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = YWSDVTZXYK;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = br.com.fiap.SofttekAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SofttekApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SofttekApp";
+			};
+			name = Debug;
+		};
+		FD47F04B2DBEEBCB00E583CA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = YWSDVTZXYK;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = br.com.fiap.SofttekAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SofttekApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SofttekApp";
+			};
+			name = Release;
+		};
+		FD47F04D2DBEEBCB00E583CA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = YWSDVTZXYK;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = br.com.fiap.SofttekAppUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = SofttekApp;
+			};
+			name = Debug;
+		};
+		FD47F04E2DBEEBCB00E583CA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = YWSDVTZXYK;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = br.com.fiap.SofttekAppUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = SofttekApp;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FD47F01D2DBEEBC500E583CA /* Build configuration list for PBXProject "SofttekApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FD47F0442DBEEBCB00E583CA /* Debug */,
+				FD47F0452DBEEBCB00E583CA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FD47F0462DBEEBCB00E583CA /* Build configuration list for PBXNativeTarget "SofttekApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FD47F0472DBEEBCB00E583CA /* Debug */,
+				FD47F0482DBEEBCB00E583CA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FD47F0492DBEEBCB00E583CA /* Build configuration list for PBXNativeTarget "SofttekAppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FD47F04A2DBEEBCB00E583CA /* Debug */,
+				FD47F04B2DBEEBCB00E583CA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FD47F04C2DBEEBCB00E583CA /* Build configuration list for PBXNativeTarget "SofttekAppUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FD47F04D2DBEEBCB00E583CA /* Debug */,
+				FD47F04E2DBEEBCB00E583CA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		FD47F0692DBF300B00E583CA /* XCRemoteSwiftPackageReference "SQLite" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/stephencelis/SQLite.swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.15.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		FD47F06A2DBF300B00E583CA /* SQLite */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FD47F0692DBF300B00E583CA /* XCRemoteSwiftPackageReference "SQLite" */;
+			productName = SQLite;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = FD47F01A2DBEEBC500E583CA /* Project object */;
+}
