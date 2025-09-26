@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "module": "es2020",
+    "target": "es2020",
+    "moduleResolution": "bundler",
+    "outDir": "lib",
+    "rootDir": "src",
+    "esModuleInterop": true,
+    "strict": true
+  },
+  "include": [
+    "src"
+  ]
+}

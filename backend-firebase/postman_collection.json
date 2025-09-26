@@ -1,0 +1,100 @@
+{
+  "info": {
+    "name": "Softtek Sprint 2 - Firebase",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://us-central1-YOUR_PROJECT_ID.cloudfunctions.net/api"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/health"
+      }
+    },
+    {
+      "name": "Create Assessment",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"sessionId\": \"device-123\", \"type\": \"anxiety\", \"score\": 60, \"answers\": {\"q1\": 3}}"
+        },
+        "url": "{{baseUrl}}/assessments"
+      }
+    },
+    {
+      "name": "Assessments Summary",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/assessments/summary/device-123"
+      }
+    },
+    {
+      "name": "Mood Check-in",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"sessionId\": \"device-123\", \"mood\": \"neutro\", \"note\": \"dia ok\"}"
+        },
+        "url": "{{baseUrl}}/mood/checkin"
+      }
+    },
+    {
+      "name": "Mood History",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/mood/history/device-123"
+      }
+    },
+    {
+      "name": "List Support",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/support"
+      }
+    },
+    {
+      "name": "Upsert Support",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"key\": \"terapia_geral\", \"title\": \"Terapia\", \"type\": \"terapia\", \"description\": \"Sess\\u00f5es com psic\\u00f3logo\", \"active\": true}"
+        },
+        "url": "{{baseUrl}}/support"
+      }
+    },
+    {
+      "name": "Activity History",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/history/device-123"
+      }
+    }
+  ]
+}

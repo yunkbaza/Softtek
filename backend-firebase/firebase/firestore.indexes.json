@@ -1,0 +1,47 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "assessments",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "sessionId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "createdAt",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "moods",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "sessionId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "createdAt",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "activity_logs",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "sessionId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "createdAt",
+          "order": "DESCENDING"
+        }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}
