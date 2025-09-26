@@ -1,143 +1,94 @@
+//
+//  CheckInView.swift
+//  SofttekApp
+//
+//  Created by yunkbaza on 26/09/25.
+//
+
 import SwiftUI
 
 struct CheckInView: View {
-    let emotions: [(String, String)] = [
-        ("😀", "Alegre"), ("😔", "Triste"), ("😠", "Bravo"), ("😍", "Amoroso"),
-        ("😨", "Assustado"), ("😎", "Confiante"), ("😡", "Estressado"),
-        ("😴", "Cansado"), ("😭", "Chorando"), ("🤔", "Pensativo"),
-        ("😞", "Solitário"), ("🙏", "Grato")
-    ]
+    @State private var selectedEmotion: String?
+    @State private var showAlert = false
+    @State private var alertMessage = ""
+    @State private var isSubmitting = false // Para mostrar um indicador de loading
 
-    @State private var selectedEmotion: (emoji: String, name: String)? = nil
-    @State private var showSavedMessage = false
+    let emotions = ["😄", "😊", "😐", "😢", "😠"]
 
     var body: some View {
-        ZStack {
-            LinearGradient(
-                gradient: Gradient(colors: [
-                    Color(red: 245/255, green: 250/255, blue: 255/255),
-                    Color(red: 220/255, green: 235/255, blue: 255/255)
-                ]),
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            ).ignoresSafeArea()
+        VStack(spacing: 30) {
+            Text("Como você está se sentindo agora?")
+                .font(.largeTitle)
+                .fontWeight(.bold)
+                .multilineTextAlignment(.center)
 
-            VStack(spacing: 24) {
-                // Título
-                VStack(spacing: 6) {
-                    Text("Como você está se sentindo agora?")
-                        .font(.system(size: 22, weight: .bold, design: .rounded))
-                        .foregroundColor(.black)
-
-                    Text("Escolha uma emoção abaixo para registrar seu estado.")
-                        .font(.system(size: 16, weight: .medium, design: .rounded))
-                        .foregroundColor(.gray)
-                }
-                .padding(.top)
-
-                // Destaque da emoção selecionada com cor personalizada
-                if let emotion = selectedEmotion {
-                    VStack(spacing: 6) {
-                        Text(emotion.0)
-                            .font(.system(size: 60))
-                        Text(emotion.name)
-                            .font(.system(size: 18, weight: .semibold, design: .rounded))
-                            .foregroundColor(emotionColor(emotion.name)) // ✅ apenas aqui
-                    }
-                    .transition(.opacity.combined(with: .scale))
-                }
-
-                // Grid de emoções com texto neutro
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 90))], spacing: 20) {
-                    ForEach(emotions, id: \.1) { emotion in
-                        Button(action: {
-                            withAnimation {
-                                selectedEmotion = emotion
-                            }
-                        }) {
-                            VStack(spacing: 8) {
-                                Text(emotion.0)
-                                    .font(.system(size: 30))
-                                Text(emotion.1)
-                                    .font(.system(size: 14, weight: .medium, design: .rounded))
-                                    .foregroundColor(.primary) // 👈 mantém texto neutro
-                            }
-                            .frame(width: 90, height: 90)
-                            .background(
-                                emotionColor(emotion.1)
-                                    .opacity(selectedEmotion?.name == emotion.1 ? 0.5 : 0.15)
-                            )
-                            .cornerRadius(16)
-                            .shadow(color: .black.opacity(0.05), radius: 3, x: 0, y: 2)
-                        }
-                    }
-                }
-                .padding(.horizontal)
-
-                // Botão de registrar com azul clarinho
-                if selectedEmotion != nil {
+            HStack(spacing: 20) {
+                ForEach(emotions, id: \.self) { emotion in
                     Button(action: {
-                        if let name = selectedEmotion?.name {
-                            DatabaseManager.shared.addEmotion(name)
-                            withAnimation {
-                                showSavedMessage = true
-                                selectedEmotion = nil
-                            }
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                                showSavedMessage = false
-                            }
-                        }
+                        self.selectedEmotion = emotion
                     }) {
-                        Text("Registrar Sentimento")
-                            .font(.system(size: 18, weight: .semibold, design: .rounded))
-                            .frame(maxWidth: .infinity)
+                        Text(emotion)
+                            .font(.system(size: 50))
                             .padding()
-                            .background(Color(red: 0.4, green: 0.7, blue: 1.0)) // azul clarinho
-                            .foregroundColor(.white)
-                            .cornerRadius(12)
-                            .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 3)
+                            .background(self.selectedEmotion == emotion ? Color.blue.opacity(0.3) : Color.clear)
+                            .clipShape(Circle())
                     }
-                    .padding(.horizontal)
-                    .padding(.top, 10)
                 }
-
-                // Feedback visual
-                if showSavedMessage {
-                    Text("✅ Sentimento salvo com sucesso!")
-                        .font(.system(size: 14, design: .rounded))
-                        .foregroundColor(.green)
-                        .transition(.opacity)
-                }
-
-                Spacer()
             }
-            .padding()
+            
+            Button(action: submitEmotion) {
+                if isSubmitting {
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                } else {
+                    Text("Registrar Emoção")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(selectedEmotion == nil ? Color.gray : Color.blue)
+                        .cornerRadius(10)
+                }
+            }
+            .disabled(selectedEmotion == nil || isSubmitting)
+            
         }
-        .navigationTitle("Check-in Diário")
-        .navigationBarTitleDisplayMode(.inline)
+        .padding()
+        .alert(isPresented: $showAlert) {
+            Alert(title: Text("Status"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
+        }
     }
-
-    // Cor personalizada por emoção
-    func emotionColor(_ name: String) -> Color {
-        switch name {
-        case "Alegre": return .yellow
-        case "Triste": return .blue
-        case "Bravo": return .red
-        case "Amoroso": return .pink
-        case "Assustado": return .purple
-        case "Confiante": return .green
-        case "Estressado": return .orange
-        case "Cansado": return .gray
-        case "Chorando": return .cyan
-        case "Pensativo": return .indigo
-        case "Solitário": return .mint
-        case "Grato": return .teal
-        default: return .gray
+    
+    private func submitEmotion() {
+        guard let emotion = selectedEmotion else { return }
+        
+        isSubmitting = true
+        
+        // Cria o modelo com os dados a serem enviados
+        let emotionData = EmotionModel(
+            emotion: emotion,
+            timestamp: Date(),
+            userId: "ANONYMOUS_USER_ID" // IMPORTANTE: Gerencie o ID do usuário de forma real no seu app
+        )
+        
+        // Chama a função da API
+        APIManager.shared.addEmotion(emotion: emotionData) { result in
+            isSubmitting = false
+            switch result {
+            case .success:
+                alertMessage = "Sua emoção foi registrada com sucesso!"
+                print("Emoção enviada com sucesso para a API.")
+            case .failure(let error):
+                alertMessage = "Falha ao registrar emoção. Tente novamente."
+                print("Erro ao enviar emoção: \(error.localizedDescription)")
+            }
+            showAlert = true
         }
     }
 }
 
-#Preview {
-    CheckInView()
+struct CheckInView_Previews: PreviewProvider {
+    static var previews: some View {
+        CheckInView()
+    }
 }
-
