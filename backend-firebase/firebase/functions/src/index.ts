@@ -18,7 +18,7 @@ const apiKeyMiddleware = (req: express.Request, res: express.Response, next: exp
   
   // Defina sua chave de API secreta aqui. Pode ser qualquer string complexa.
   // O ideal é guardar isso nas configurações de ambiente do Firebase.
-  const SECRET_API_KEY = "sua-chave-secreta-aqui-12345";
+  const SECRET_API_KEY = "https://us-central1-challenge-ab2d2.cloudfunctions.net/api";
 
   if (apiKey && apiKey === SECRET_API_KEY) {
     // Chave válida, a requisição pode continuar
